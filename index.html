@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Changhoon Lim (임창훈) — M.S. student at Chosun University working on interpretability and LLM safety. Publications and honors.">
+<title>Changhoon Lim · Publications</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,760&family=Figtree:wght@400;500;600&family=Noto+Sans+KR:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F6F6F8; --surface:#FFFFFF; --ink:#121419; --muted:#5B606E; --faint:#8F94A0; --rule:#E2E3E8;
+  --accent:#2F4BDB; --accent-soft:#E9EDFD; --amber:#A96F06; --amber-soft:#FBF0DA; --violet:#6A4BC4; --violet-soft:#F0ECFA;
+  --hero:#0D1017; --hero-ink:#F1F2F6; --hero-muted:#98A0B4; --hero-line:#333B55; --hero-accent:#8298FF; --hero-rule:#1F2536;
+  --display:"Bricolage Grotesque","Figtree",system-ui,sans-serif;
+  --body:"Figtree","Noto Sans KR",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --kr:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --bg:#0A0C11; --surface:#121620; --ink:#E7E9EF; --muted:#A1A7B6; --faint:#6E7485; --rule:#222838;
+  --accent:#8EA0FF; --accent-soft:#19204A; --amber:#E6B24D; --amber-soft:#2B2110; --violet:#B8A4F5; --violet-soft:#221A3D;
+  --hero:#0F131D; --hero-rule:#262D42;
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0A0C11; --surface:#121620; --ink:#E7E9EF; --muted:#A1A7B6; --faint:#6E7485; --rule:#222838;
+  --accent:#8EA0FF; --accent-soft:#19204A; --amber:#E6B24D; --amber-soft:#2B2110; --violet:#B8A4F5; --violet-soft:#221A3D;
+  --hero:#0F131D; --hero-rule:#262D42;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.6;padding-inline:16px;padding-block:16px 64px}
+a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.page{max-width:1120px;margin:0 auto}
+
+/* ---------- hero ---------- */
+.hero{position:relative;background:var(--hero);color:var(--hero-ink);border-radius:20px;overflow:hidden;border:1px solid var(--hero-rule);display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);min-height:440px}
+@media (max-width:860px){.hero{grid-template-columns:1fr;min-height:0}}
+.hero-text{position:relative;z-index:1;padding:48px 44px;display:flex;flex-direction:column;gap:22px;justify-content:center}
+@media (max-width:560px){.hero-text{padding:32px 22px}}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--hero-muted);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--hero-accent);display:inline-block}
+.hero h1{font-family:var(--display);font-weight:760;font-size:clamp(40px,6.4vw,68px);line-height:.98;letter-spacing:-.035em;margin:0}
+.hero h1 .kr{display:block;font-family:var(--kr);font-weight:400;font-size:18px;letter-spacing:0;color:var(--hero-muted);margin-top:12px}
+.thesis{font-family:var(--display);font-weight:500;font-size:clamp(19px,2.2vw,23px);line-height:1.35;letter-spacing:-.01em;margin:0;max-width:30ch;text-wrap:balance;color:var(--hero-ink)}
+.thesis em{font-style:normal;color:var(--hero-accent)}
+.affil{margin:0;color:var(--hero-muted);font-size:14.5px;line-height:1.55}
+.actions{display:flex;flex-wrap:wrap;gap:10px}
+.btn{font:500 14px var(--body);display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;text-decoration:none;cursor:pointer;border:1px solid var(--hero-line);color:var(--hero-ink);background:transparent}
+.btn:hover{border-color:var(--hero-accent)}
+.btn.primary{background:var(--hero-ink);color:var(--hero);border-color:var(--hero-ink)}
+.btn.primary:hover{background:#fff}
+.btn .m{font-family:var(--mono);font-size:12.5px}
+.field{position:relative;min-height:320px}
+.field canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.field-cap{position:absolute;right:20px;bottom:18px;font-family:var(--mono);font-size:11.5px;color:var(--hero-muted);text-align:right;line-height:1.5;pointer-events:none}
+.field-cap b{color:var(--hero-accent);font-weight:500}
+@media (max-width:860px){.field{min-height:240px;border-top:1px solid var(--hero-rule)}}
+
+/* ---------- stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:14px;overflow:hidden;margin-top:16px}
+@media (max-width:700px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{background:var(--surface);padding:18px 20px;display:flex;flex-direction:column;gap:2px}
+.stat b{font-family:var(--display);font-weight:650;font-size:34px;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat span{font-size:13.5px;color:var(--muted)}
+.stat.award b{color:var(--amber)}
+
+/* ---------- section scaffolding ---------- */
+section{margin-top:64px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.sec-head h2{font-family:var(--display);font-weight:650;font-size:30px;letter-spacing:-.025em;margin:0;line-height:1.1}
+.sec-head p{margin:0;color:var(--muted);font-size:14px}
+
+/* ---------- themes ---------- */
+.themes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+@media (max-width:820px){.themes{grid-template-columns:1fr;gap:20px}}
+.theme{border-top:2px solid var(--ink);padding-top:14px}
+.theme .when{font-family:var(--mono);font-size:12px;color:var(--faint)}
+.theme h3{font-family:var(--display);font-weight:650;font-size:20px;letter-spacing:-.015em;margin:4px 0 8px;line-height:1.2}
+.theme p{margin:0 0 10px;color:var(--muted);font-size:14.5px;max-width:42ch}
+.theme .refs{display:flex;gap:6px;flex-wrap:wrap}
+.ref{font-family:var(--mono);font-size:12px;padding:2px 7px;border-radius:5px;background:var(--surface);border:1px solid var(--rule);color:var(--ink);text-decoration:none}
+.ref:hover{border-color:var(--accent);color:var(--accent)}
+.theme.now{border-top-color:var(--accent)}
+.theme.now .when{color:var(--accent)}
+
+/* ---------- selected ---------- */
+.selected{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:900px){.selected{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:16px;padding:22px 22px 18px;display:flex;flex-direction:column;gap:10px}
+.card.lead{grid-column:1 / -1;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:8px 32px;padding:26px}
+@media (max-width:760px){.card.lead{grid-template-columns:1fr}}
+.card .top{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.card h3{font-family:var(--display);font-weight:650;font-size:20px;line-height:1.22;letter-spacing:-.015em;margin:0;text-wrap:balance}
+.card.lead h3{font-size:clamp(22px,2.6vw,28px)}
+.card .who{font-size:13.5px;color:var(--muted)}
+.card .tldr{font-size:14.5px;margin:0;color:var(--ink);max-width:62ch}
+.card .venue{font-size:13px;color:var(--faint);margin-top:auto}
+.card.lead .side{display:flex;flex-direction:column;gap:10px;justify-content:center}
+.card.lead .side .tldr{font-size:15.5px}
+.pill{font-family:var(--mono);font-size:11px;letter-spacing:.03em;padding:3px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.pill.review{background:var(--violet-soft);color:var(--violet)}
+.pill.award{background:var(--amber-soft);color:var(--amber)}
+.pill.line{background:none;border:1px solid var(--rule);color:var(--muted)}
+
+/* ---------- full list ---------- */
+.controls{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+.tabs{display:inline-flex;gap:2px;background:var(--surface);border:1px solid var(--rule);border-radius:999px;padding:3px}
+.tabs button{font:500 13.5px var(--body);color:var(--muted);background:none;border:0;border-radius:999px;padding:6px 12px;cursor:pointer}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.tabs .n{font-family:var(--mono);font-size:11px;opacity:.65;margin-left:5px}
+.toggle{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted);cursor:pointer}
+.toggle input{accent-color:var(--accent);width:15px;height:15px;margin:0}
+.group h3{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin:28px 0 0;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+ol.pubs{list-style:none;margin:0;padding:0}
+.pub{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:4px 18px;padding:16px 0;border-bottom:1px solid var(--rule);scroll-margin-top:24px}
+.pub:target{background:linear-gradient(90deg,var(--accent-soft),transparent 70%)}
+.pub .tag{font-family:var(--mono);font-size:12.5px;color:var(--faint);padding-top:2px}
+.pub .t{font-weight:600;font-size:16px;line-height:1.4;margin:0}
+.pub .orig{font-family:var(--kr);font-size:13px;color:var(--faint);margin-top:1px}
+.pub .authors{font-size:14px;color:var(--muted);margin-top:4px}
+.pub .authors .me{color:var(--ink);font-weight:600}
+.pub .venue{font-size:14px;margin-top:1px}
+.pub .venue i{color:var(--ink)}
+.pub .venue .det{color:var(--muted);font-variant-numeric:tabular-nums}
+.pub .pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.pub .links{display:flex;flex-direction:column;align-items:flex-end;gap:6px;padding-top:2px}
+.pub .links a,.pub .links button{font:500 12.5px var(--mono);color:var(--accent);background:none;border:0;padding:0;cursor:pointer;text-decoration:none}
+.pub .links a:hover,.pub .links button:hover{text-decoration:underline}
+pre.bib{grid-column:2 / -1;margin:10px 0 0;padding:12px 14px;background:var(--surface);border:1px solid var(--rule);border-radius:10px;font:12px/1.55 var(--mono);color:var(--muted);overflow-x:auto;white-space:pre}
+@media (max-width:600px){.pub{grid-template-columns:1fr}.pub .tag{padding:0}.pub .links{flex-direction:row;align-items:center;gap:14px}pre.bib{grid-column:1}}
+.legend{font-size:12.5px;color:var(--faint);margin-top:14px}
+.empty{padding:28px 0;color:var(--faint)}
+
+/* ---------- honors ---------- */
+.honors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:760px){.honors{grid-template-columns:1fr}}
+.honor{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:start;padding:20px;border-radius:16px;background:var(--surface);border:1px solid var(--rule)}
+.medal{width:44px;height:44px;border-radius:50%;background:var(--amber-soft);color:var(--amber);display:grid;place-items:center;font-family:var(--mono);font-size:12.5px;font-weight:500}
+.honor .what{font-weight:600;font-size:15.5px;line-height:1.35}
+.honor .who{font-size:13.5px;color:var(--muted);margin-top:2px}
+.honor .note{font-family:var(--kr);font-size:12.5px;color:var(--faint);margin-top:6px}
+
+footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--faint)}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);transform:translateX(-50%);background:var(--ink);color:var(--bg);font-size:13px;padding:9px 16px;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+</style>
+<style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+
+<div class="page">
+
+<header class="hero">
+  <div class="hero-text">
+    <div class="eyebrow"><span class="dot"></span>Interpretability · LLM Safety</div>
+    <h1>Changhoon<br>Lim<span class="kr">임창훈</span></h1>
+    <p class="thesis">I study how language models decide <em>not to answer</em> — and what that decision has to do with safety.</p>
+    <p class="affil">M.S. student, ICT Convergence Security Lab<br>Dept. of AI &amp; Software Engineering, Chosun University · Advisor: Prof. Hyunil Kim</p>
+    <div class="actions">
+      <a class="btn primary" href="https://scholar.google.com/citations?user=RYqF5QkAAAAJ&amp;hl=en">Google Scholar ↗</a>
+      <button class="btn" type="button" id="copyEmail"><span class="m">LIMCH2320@chosun.ac.kr</span></button>
+    </div>
+  </div>
+  <div class="field" aria-hidden="true">
+    <canvas id="field"></canvas>
+    <div class="field-cap">activations aligning to a<br><b>shared abstention direction</b></div>
+  </div>
+</header>
+
+<div class="stats" id="stats"></div>
+
+<section id="research">
+  <div class="sec-head"><h2>Research</h2><p>From attacking models to reading their internals.</p></div>
+  <div class="themes">
+    <div class="theme now">
+      <div class="when">Now · 2026–</div>
+      <h3>Abstention &amp; refusal inside LLMs</h3>
+      <p>Where "I can't answer that" lives in activation space, whether it shares machinery with safety refusal, and what steering it breaks.</p>
+      <div class="refs"><a class="ref" href="#p1">P1</a></div>
+    </div>
+    <div class="theme">
+      <div class="when">2025–2026</div>
+      <h3>Safety after fine-tuning &amp; compression</h3>
+      <p>How LoRA fine-tuning, quantization and other compression quietly erode alignment and open new attack surfaces.</p>
+      <div class="refs"><a class="ref" href="#j4">J4</a><a class="ref" href="#c3">C3</a><a class="ref" href="#c2">C2</a></div>
+    </div>
+    <div class="theme">
+      <div class="when">2025</div>
+      <h3>Backdoors in federated &amp; small LMs</h3>
+      <p>Stealthy, trigger-less backdoors under non-IID federated learning, and where backdoors sit in small language models.</p>
+      <div class="refs"><a class="ref" href="#j1">J1</a><a class="ref" href="#j2">J2</a><a class="ref" href="#j3">J3</a><a class="ref" href="#c1">C1</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="selected">
+  <div class="sec-head"><h2>Selected work</h2><p>First- and co-first-authored.</p></div>
+  <div class="selected" id="selectedGrid"></div>
+</section>
+
+<section id="publications">
+  <div class="sec-head"><h2>All publications</h2>
+    <div class="controls">
+      <div class="tabs" role="group" aria-label="Filter by type" id="tabs"></div>
+      <label class="toggle" for="firstOnly"><input type="checkbox" id="firstOnly"> First-author only</label>
+    </div>
+  </div>
+  <div id="list"></div>
+  <p class="legend"><b>Bold</b> = me · † equal contribution · * corresponding author · Korean-language papers show the original title below.</p>
+</section>
+
+<section id="honors">
+  <div class="sec-head"><h2>Honors</h2></div>
+  <div class="honors">
+    <div class="honor"><div class="medal">'26</div><div>
+      <div class="what">Master's Excellence Scholarship in Science &amp; Engineering</div>
+      <div class="who">Ministry of Science and ICT (MSIT) &amp; Korea Student Aid Foundation (KOSAF) · 2026–present</div>
+      <div class="note">석사우수장학금(이공계) · 과학기술정보통신부 · 한국장학재단</div>
+    </div></div>
+    <div class="honor"><div class="medal">'25</div><div>
+      <div class="what">Best Paper Award (Chairman's Award, Teachers' Pension)</div>
+      <div class="who">KIISC Honam Branch Fall Conference 2025 · for <a href="#c2">C2</a></div>
+      <div class="note">우수논문상 (사립학교교직원연금공단 이사장상) · 한국정보보호학회 호남지부 추계학술대회</div>
+    </div></div>
+  </div>
+</section>
+
+<footer><span>Changhoon Lim · Chosun University</span><span>Updated September 2026</span></footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const ME = "Changhoon Lim";
+const PUBS = [
+  {id:"p1", type:"review", tag:"P1", year:2026,
+   title:"Abstention is not Refusal, But It Affects Safety of Large Language Models",
+   authors:["Changhoon Lim","Seunghan Kim","Minyeong Choe","Haehyun Cho","Hyunil Kim*"],
+   venue:"Under review", venueDet:"ACL Rolling Review, 2026",
+   tldr:"LLM abstention and safety refusal share a partially overlapping activation direction. Suppressing it — even when it is derived only from benign data — breaks safety refusal on harmful prompts.",
+   pills:[["Under review","review"],["1st author",""]], first:true, selected:true},
+
+  {id:"j4", type:"journal", tag:"J4", year:2026,
+   title:"Backdoor Vulnerability Analysis of Quantized LLMs in Lightweight Fine-Tuning Environments",
+   orig:"양자화된 LLM의 경량 미세 조정 환경에서의 백도어 취약성 분석",
+   authors:["Changhoon Lim","Minyeong Choe","Seunghan Kim","Hyunil Kim*"],
+   venue:"Journal of the Korea Institute of Information Security & Cryptology", short:"JKIISC 36(2) · 2026", venueDet:"36(2), pp. 539–550, Apr. 2026",
+   journal:"Journal of the Korea Institute of Information Security \\& Cryptology", vol:36, num:2, pages:"539--550",
+   doi:"10.13089/JKIISC.2026.36.2.539",
+   tldr:"Studies backdoor attacks when quantization is combined with LoRA-based fine-tuning, exposing weaknesses in how efficient LLM pipelines resist backdoors.",
+   pills:[["KCI","line"],["1st author",""]], first:true, selected:true},
+
+  {id:"j3", type:"journal", tag:"J3", year:2026,
+   title:"Efficiency and Robustness Analysis of Small Language Models Based on Fine-Tuning in Federated Learning",
+   orig:"연합학습에서 미세조정 기법 기반 소형 언어 모델 효율성 및 강건성 분석",
+   authors:["Seunghan Kim","Changhoon Lim","Hyunil Kim*"],
+   venue:"Journal of the Korea Institute of Information Security & Cryptology", venueDet:"36(1), pp. 165–176, Feb. 2026",
+   journal:"Journal of the Korea Institute of Information Security \\& Cryptology", vol:36, num:1, pages:"165--176",
+   url:"https://public.thinkonweb.com/journals/jkiisc/digital-library/105833", pills:[["KCI","line"]]},
+
+  {id:"j2", type:"journal", tag:"J2", year:2025,
+   title:"A Study on Backdoor Vulnerability Analysis of Small Language Models Based on Factual Recall",
+   orig:"사실 회상 기반 소형 언어 모델의 백도어 취약 지점 분석에 관한 연구",
+   authors:["Minyeong Choe","Changhoon Lim","Hyunil Kim*"],
+   venue:"Journal of the Korea Institute of Information Security & Cryptology", venueDet:"35(6), pp. 1395–1405, Dec. 2025",
+   journal:"Journal of the Korea Institute of Information Security \\& Cryptology", vol:35, num:6, pages:"1395--1405",
+   doi:"10.13089/JKIISC.2025.35.6.1395", pills:[["KCI","line"]]},
+
+  {id:"j1", type:"journal", tag:"J1", year:2025,
+   title:"How Robust Are Language Models against Backdoors in Federated Learning?",
+   authors:["Seunghan Kim†","Changhoon Lim†","Gwonsang Ryu","Hyunil Kim*"],
+   venue:"Computer Modeling in Engineering & Sciences", short:"CMES 145(2) · 2025", venueDet:"145(2), pp. 2617–2630, Nov. 2025",
+   journal:"Computer Modeling in Engineering \\& Sciences", vol:145, num:2, pages:"2617--2630",
+   doi:"10.32604/cmes.2025.071190",
+   tldr:"Measures how well language models withstand backdoor attacks when they are trained collaboratively under federated learning.",
+   pills:[["SCIE","line"],["Co-first author",""]], first:true, selected:true},
+
+  {id:"c3", type:"conf", tag:"C3", year:2026,
+   title:"Analysis of the Impact of PEFT on Safety Alignment in Korean-centric Language Models",
+   orig:"한국어 기반 모델의 파라미터 효율적 미세조정 이후 안전 정렬 변화 분석",
+   authors:["Changhoon Lim","Chanbin Moon","Seunghan Kim","Minyeong Choe","Hyunil Kim*"],
+   venue:"Conference on Information Security and Cryptography – Summer (CISC-S)", short:"CISC-S · 2026", venueDet:"KIISC, 2026",
+   booktitle:"Proc. Conference on Information Security and Cryptography -- Summer (CISC-S)",
+   tldr:"LoRA fine-tuning on harmless Korean data raised unsafe-response rates by 38–54 points across three Korean LLMs — even with a minimal adapter.",
+   pills:[["1st author",""]], first:true, selected:true},
+
+  {id:"c2", type:"conf", tag:"C2", year:2025,
+   title:"Impact of Model Compression on the Security Vulnerability and Trustworthiness of AI Models",
+   translated:true,
+   orig:"모델 압축이 인공지능 모델의 보안 취약성과 신뢰성에 미치는 영향",
+   authors:["Changhoon Lim","Seunghan Kim","Minyeong Choe","Hyunil Kim*"],
+   venue:"KIISC Honam Branch Fall Conference", venueDet:"2025",
+   booktitle:"Proc. KIISC Honam Branch Fall Conference",
+   pills:[["Best Paper Award","award"]], first:true},
+
+  {id:"c1", type:"conf", tag:"C1", year:2025,
+   title:"Trigger-less Clean-label Backdoor Attack in Federated Learning",
+   orig:"연합학습 환경에서의 Triggerless Clean-label 백도어 공격 연구",
+   authors:["Changhoon Lim","Seunghan Kim","Minyeong Choe","Hyunil Kim*"],
+   venue:"Conference on Information Security and Cryptography – Summer (CISC-S)", venueDet:"KIISC, 2025",
+   booktitle:"Proc. Conference on Information Security and Cryptography -- Summer (CISC-S)",
+   pills:[], first:true},
+];
+
+const GROUPS = [{type:"review",label:"Under review"},{type:"journal",label:"Journal articles"},{type:"conf",label:"Conference papers · domestic (KIISC)"}];
+const TABS = [{key:"all",label:"All"},{key:"journal",label:"Journals"},{key:"conf",label:"Conferences"},{key:"review",label:"Under review"}];
+
+let state = {tab:"all", firstOnly:false};
+try{ const s = JSON.parse(localStorage.getItem("pubfilter")||"null"); if(s) state = {...state, ...s}; }catch(e){}
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pill = ([t,c]) => `<span class="pill ${c}">${esc(t)}</span>`;
+function authorHTML(a){
+  const clean = a.replace(/[†*]/g,"");
+  const marks = a.slice(clean.length).replace("†","<sup>†</sup>").replace("*","<sup>*</sup>");
+  return clean === ME ? `<span class="me">${esc(clean)}</span>${marks}` : `${esc(clean)}${marks}`;
+}
+const authors = p => p.authors.map(authorHTML).join(", ");
+
+function bibtex(p){
+  const last = p.authors[0].replace(/[†*]/g,"").split(" ").pop().toLowerCase();
+  const key = last + p.year + p.title.split(/\s+/).find(w => w.length > 3).toLowerCase().replace(/[^a-z]/g,"");
+  const au = p.authors.map(a => { const n=a.replace(/[†*]/g,"").split(" "); return n.pop()+", "+n.join(" "); }).join(" and ");
+  const f = [["title",`{${p.title}}`],["author",au],["year",p.year]];
+  if(p.type==="journal"){ f.push(["journal",p.journal],["volume",p.vol],["number",p.num],["pages",p.pages]); if(p.doi) f.push(["doi",p.doi]); }
+  else if(p.type==="conf"){ f.push(["booktitle",p.booktitle],["note",p.translated?"In Korean; title translated":"In Korean"]); }
+  else f.push(["note","Under review"]);
+  const kind = p.type==="journal"?"article":p.type==="conf"?"inproceedings":"unpublished";
+  return `@${kind}{${key},\n` + f.map(([k,v]) => `  ${k} = {${v}}`).join(",\n") + "\n}";
+}
+
+function renderStats(){
+  const c = t => PUBS.filter(p=>p.type===t).length;
+  document.getElementById("stats").innerHTML = [
+    [c("journal"),"journal articles · 1 SCIE"],[c("conf"),"conference papers"],[c("review"),"under review · ACL Rolling Review"],["'25","Best Paper Award","award"]
+  ].map(([n,l,cls]) => `<div class="stat ${cls||""}"><b>${n}</b><span>${l}</span></div>`).join("");
+}
+function renderSelected(){
+  const sel = PUBS.filter(p=>p.selected);
+  document.getElementById("selectedGrid").innerHTML = sel.map((p,i) => {
+    const venue = p.short || p.venueDet;
+    if(i===0) return `<article class="card lead">
+      <div><div class="top">${p.pills.map(pill).join("")}</div><h3 style="margin-top:10px">${esc(p.title)}</h3><div class="who" style="margin-top:8px">${authors(p)}</div></div>
+      <div class="side"><p class="tldr">${esc(p.tldr)}</p><div class="venue">${esc(p.venueDet)} · <a href="#${p.id}">details</a></div></div></article>`;
+    return `<article class="card"><div class="top">${p.pills.map(pill).join("")}</div><h3>${esc(p.title)}</h3><div class="who">${authors(p)}</div><p class="tldr">${esc(p.tldr)}</p><div class="venue">${esc(venue)} · <a href="#${p.id}">details</a></div></article>`;
+  }).join("");
+}
+function entry(p){
+  const link = p.doi ? `<a href="https://doi.org/${esc(p.doi)}">DOI ↗</a>` : p.url ? `<a href="${esc(p.url)}">Link ↗</a>` : "";
+  return `<li class="pub" id="${p.id}">
+    <span class="tag">${p.tag}</span>
+    <div>
+      <p class="t">${esc(p.title)}</p>
+      ${p.orig ? `<div class="orig">${esc(p.orig)}${p.translated?' · <span lang="en">title translated</span>':''}</div>` : ""}
+      <div class="authors">${authors(p)}</div>
+      <div class="venue"><i>${esc(p.venue)}</i>, <span class="det">${esc(p.venueDet)}</span></div>
+      ${p.pills.length ? `<div class="pills">${p.pills.map(pill).join("")}</div>` : ""}
+    </div>
+    <div class="links">${link}<button type="button" data-bib="${p.id}" aria-expanded="false">BibTeX</button></div>
+  </li>`;
+}
+function renderList(){
+  const match = (p,tab) => (tab==="all"||p.type===tab) && (!state.firstOnly||p.first);
+  document.getElementById("tabs").innerHTML = TABS.map(t =>
+    `<button type="button" data-tab="${t.key}" aria-pressed="${state.tab===t.key}">${t.label}<span class="n">${PUBS.filter(p=>match(p,t.key)).length}</span></button>`).join("");
+  document.getElementById("firstOnly").checked = state.firstOnly;
+  const v = PUBS.filter(p=>match(p,state.tab));
+  const html = GROUPS.map(g => { const it=v.filter(p=>p.type===g.type); return it.length?`<div class="group"><h3>${g.label}</h3><ol class="pubs">${it.map(entry).join("")}</ol></div>`:""; }).join("");
+  document.getElementById("list").innerHTML = html || `<p class="empty">No papers match these filters.</p>`;
+}
+function save(){ try{ localStorage.setItem("pubfilter", JSON.stringify(state)); }catch(e){} }
+function toast(m){ const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("show"),1600); }
+function selectNode(n){ const r=document.createRange(); r.selectNodeContents(n); const s=getSelection(); s.removeAllRanges(); s.addRange(r); }
+function copy(text, node, ok){
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(()=>toast(ok),()=>{ selectNode(node); toast("Selected — press Ctrl/⌘+C to copy"); }); }
+  else { selectNode(node); toast("Selected — press Ctrl/⌘+C to copy"); }
+}
+
+document.addEventListener("click", e => {
+  const tab = e.target.closest("[data-tab]");
+  if(tab){ state.tab=tab.dataset.tab; save(); renderList(); return; }
+  const b = e.target.closest("[data-bib]");
+  if(b){
+    const li = document.getElementById(b.dataset.bib);
+    let pre = li.querySelector("pre.bib");
+    if(pre){ pre.remove(); b.setAttribute("aria-expanded","false"); return; }
+    const text = bibtex(PUBS.find(x=>x.id===b.dataset.bib));
+    pre = document.createElement("pre"); pre.className="bib"; pre.textContent=text; li.appendChild(pre);
+    b.setAttribute("aria-expanded","true"); copy(text, pre, "BibTeX copied");
+  }
+});
+document.getElementById("copyEmail").addEventListener("click", e => copy("LIMCH2320@chosun.ac.kr", e.currentTarget.querySelector(".m"), "Email copied"));
+document.getElementById("firstOnly").addEventListener("change", e => { state.firstOnly=e.target.checked; save(); renderList(); });
+renderStats(); renderSelected(); renderList();
+
+/* ---------- hero field: scattered activation vectors align to one shared direction ---------- */
+(function(){
+  const cv = document.getElementById("field"); if(!cv) return;
+  const ctx = cv.getContext("2d");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const TARGET = -0.52; // shared direction angle (radians)
+  let W=0,H=0,pts=[],t0=performance.now(),mouse={x:-1e4,y:-1e4};
+  function rnd(i){ const x=Math.sin(i*127.1+311.7)*43758.5453; return x-Math.floor(x); }
+  function build(){
+    const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio||1,2);
+    W=r.width; H=r.height; cv.width=W*d; cv.height=H*d; ctx.setTransform(d,0,0,d,0,0);
+    pts=[]; const gap = W<500?26:30; let i=0;
+    for(let y=gap/2;y<H;y+=gap) for(let x=gap/2;x<W;x+=gap){ i++;
+      pts.push({x:x+(rnd(i)-.5)*8,y:y+(rnd(i*3)-.5)*8,a0:rnd(i*7)*Math.PI*2,k:0.35+rnd(i*11)*0.65,ph:rnd(i*13)*6.28}); }
+  }
+  function frame(now){
+    const s = reduce ? 0.72 : Math.min(1,(now-t0)/2600);
+    const ease = 1-Math.pow(1-s,3);
+    ctx.clearRect(0,0,W,H);
+    const cs = getComputedStyle(document.documentElement);
+    const line = cs.getPropertyValue("--hero-line").trim()||"#333B55";
+    const acc = cs.getPropertyValue("--hero-accent").trim()||"#8298FF";
+    for(const p of pts){
+      let wob = reduce?0:Math.sin(now/1400+p.ph)*0.08;
+      // shortest angular interpolation toward the target, scaled by this point's alignment strength
+      const diff = ((TARGET - p.a0 + Math.PI*3) % (Math.PI*2)) - Math.PI;
+      let a = p.a0 + diff*ease*p.k + wob;
+      const dx=p.x-mouse.x, dy=p.y-mouse.y, dist=Math.hypot(dx,dy);
+      if(dist<110){ a += (1-dist/110)*1.4; }
+      const align = Math.cos(a-TARGET); const len = 7+5*Math.max(0,align);
+      ctx.strokeStyle = align>0.94 ? acc : line; ctx.globalAlpha = align>0.94 ? 0.95 : 0.8;
+      ctx.lineWidth = align>0.94 ? 1.6 : 1.1;
+      ctx.beginPath(); ctx.moveTo(p.x-Math.cos(a)*len,p.y-Math.sin(a)*len); ctx.lineTo(p.x+Math.cos(a)*len,p.y+Math.sin(a)*len); ctx.stroke();
+    }
+    // the shared direction itself
+    ctx.globalAlpha = 0.25+0.75*ease; ctx.strokeStyle = acc; ctx.lineWidth = 2;
+    const cx=W*0.52, cy=H*0.5, L=Math.min(W,H)*0.36, ux=Math.cos(TARGET), uy=Math.sin(TARGET);
+    ctx.beginPath(); ctx.moveTo(cx-ux*L,cy-uy*L); ctx.lineTo(cx+ux*L,cy+uy*L); ctx.stroke();
+    const hx=cx+ux*L, hy=cy+uy*L, hs=10;
+    ctx.fillStyle = acc; ctx.beginPath(); ctx.moveTo(hx,hy);
+    ctx.lineTo(hx-ux*hs-uy*hs*0.55, hy-uy*hs+ux*hs*0.55); ctx.lineTo(hx-ux*hs+uy*hs*0.55, hy-uy*hs-ux*hs*0.55); ctx.closePath(); ctx.fill();
+    ctx.globalAlpha = 1;
+    if(!reduce) requestAnimationFrame(frame);
+  }
+  const ro = new ResizeObserver(()=>{ build(); if(reduce) frame(performance.now()); }); ro.observe(cv);
+  cv.parentElement.addEventListener("pointermove", e => { const r=cv.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; if(reduce) frame(performance.now()); });
+  cv.parentElement.addEventListener("pointerleave", () => { mouse.x=mouse.y=-1e4; if(reduce) frame(performance.now()); });
+  build(); if(reduce) frame(performance.now()); else requestAnimationFrame(frame);
+})();
+</script>
+
+</body>
+</html>
